@@ -67,9 +67,9 @@ class CommentSerializer(serializers.ModelSerializer):
         )
 
         read_only_fields = ('id', 'created', 'author', 'post')
-    
+
     def create(self, validated_data):
-        post_id = self.context['view'].kwargs['post_id']  # Получаем post_id из контекста
+        post_id = self.context['view'].kwargs['post_id']
         post = Post.objects.get(id=post_id)
         comment = Comment.objects.create(post=post, **validated_data)
         return comment
@@ -81,5 +81,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'posts', 'comments')
+        fields = (
+            'id', 'username', 'first_name',
+            'last_name', 'posts', 'comments'
+        )
         ref_name = 'ReadOnlyUsers'
